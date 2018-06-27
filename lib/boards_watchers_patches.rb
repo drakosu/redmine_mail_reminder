@@ -1,5 +1,6 @@
 # use require_dependency if you plan to utilize development mode
 require_dependency 'application_helper'
+require 'logger'
 
 module BoardsWatchers
   module Patches
@@ -23,6 +24,33 @@ module BoardsWatchers
         end
       end
     end
+  end
+
+  class << self
+
+    def logger
+      @logger ||= BoardsWatchers::Log.init_logs!
+    end
+
+  end
+
+  class Log < Logger
+
+    class << self
+
+      def init_logs!
+        logfile = Rails.root.join('log', 'mail_reminder.log')
+        logger = new(logfile)
+        logger.progname = 'BoardsWatchers'
+        logger.level = Logger::INFO
+        logger.formatter = proc do |severity, time, progname, msg|
+          "#{time} [#{severity}] #{msg}\n"
+        end
+        logger
+      end
+
+    end
+
   end
 end
 
