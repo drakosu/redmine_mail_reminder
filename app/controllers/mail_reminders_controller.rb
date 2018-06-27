@@ -19,8 +19,9 @@ class MailRemindersController < ApplicationController
 
   def create
     parameters = ActionController::Parameters.new(params[:reminder])
-    reminder = MailReminder.new(parameters.permit(:project_id, :query_id, :interval))
+    reminder = MailReminder.new(parameters.permit(:project_id, :query_id, :interval, :additional_filtering))
     reminder.interval_value = params[:interval_value].to_i
+    reminder.additional_filtering = params[:additional_filtering]
     if reminder.save
       Role.find_all_givable.each do |role|
         if params[role.name.downcase]
@@ -42,6 +43,7 @@ class MailRemindersController < ApplicationController
     reminder = MailReminder.find(params[:id])
     if request.put? && reminder.update_attributes(params[:reminder])
       reminder.interval_value = params[:interval_value]
+      reminder.additional_filtering = params[:additional_filtering]
       Role.find_all_givable.each do |role|
         if reminder.roles.include?(role) && params[role.name.downcase].nil?
           reminder.reminder_roles.find_by_role_id(role.id).destroy

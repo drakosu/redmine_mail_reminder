@@ -30,7 +30,7 @@ namespace :reminder do
             select {|m| m.project_id == rem.project_id}.
             reject {|m| m.user.nil? || m.user.locked?}.
             each do |member|
-              mail_data[member.user] << [rem.project, rem.query]
+              mail_data[member.user] << [rem.project, rem.query, rem.additional_filtering]
               rem.executed_at = Time.now if args.test != "test"
               rem.save
             end
