@@ -34,3 +34,6 @@ zh:
   :reminder_not_created: "提醒配置未创建。"
   :mail_subject: "邮件主题"
   :value: "间隔取值"
+  :label_additional_filtering: "仅提醒"
+  :label_author_only: "作者"
+  :label_assignee_only: "被分派者"
