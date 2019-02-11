@@ -1,9 +1,11 @@
 module MailRemindersHelper
-  def queries_for_options(project_id)
+  def queries_for_options(project_id, query_id = nil)
     # Project specific queries and global queries
-    IssueQuery.visible.order("#{Query.table_name}.name ASC").
-      where(project_id.nil? ? ["project_id IS NULL"] : ["project_id IS NULL OR project_id = ?", project_id]).
-      collect {|q| [q.name, q.id]}
+    selectable_queries = IssueQuery.visible.order("#{Query.table_name}.name ASC").
+      where(project_id.nil? ? ["project_id IS NULL"] : ["project_id IS NULL OR project_id = ?", project_id])
+    s = []
+    s << options_from_collection_for_select(selectable_queries, 'id', 'name', query_id)
+    safe_join(s)
   end
 
   def reminders_intervals_for_options
