@@ -34,3 +34,7 @@ en:
   :reminder_not_created: "Reminder not created"
   :mail_subject: "Mail Subject"
   :value: "Value"
+  :role_condition: "Role Condition"
+  :all: "All"
+  :author_only: "As author"
+  :assignee_only: "As assignee"

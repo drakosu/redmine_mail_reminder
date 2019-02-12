@@ -34,3 +34,7 @@ zh-TW:
   :reminder_not_created: "提醒設定未創建。"
   :mail_subject: "郵件主題"
   :value: "間隔取值"
+  :role_condition: "角色條件"
+  :all: "全部"
+  :author_only: "作為作者"
+  :assignee_only: "作為被分派者"

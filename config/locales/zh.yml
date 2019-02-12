@@ -34,3 +34,7 @@ zh:
   :reminder_not_created: "提醒配置未创建。"
   :mail_subject: "邮件主题"
   :value: "间隔取值"
+  :role_condition: "角色条件"
+  :all: "全部"
+  :author_only: "作为作者"
+  :assignee_only: "作为被分派者"

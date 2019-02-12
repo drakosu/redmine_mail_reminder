@@ -4,6 +4,10 @@ class MailReminderMailer < ActionMailer::Base
   helper :mail_reminders
   include Redmine::I18n
 
+  # Constants
+  AUTHOR_ONLY ||= 'author only'
+  ASSIGNEE_ONLY ||= 'assignee only'
+
   def self.default_url_options
     h = Setting.host_name
     h = h.to_s.gsub(%r{\/.*$}, '') unless Redmine::Utils.relative_url_root.blank?
@@ -26,9 +30,16 @@ class MailReminderMailer < ActionMailer::Base
   def issues_reminder(user, queries_data)
     User.current = user
     @queries_data = []
-    queries_data.each do |project, query|
+    queries_data.each do |project, query, role_condition|
       query.project = project
-      issues = query.issues(:include => [:assigned_to, :tracker, :priority, :category, :fixed_version])
+      options = {:include => [:assigned_to, :tracker, :priority, :category, :fixed_version]}
+      case role_condition
+      when AUTHOR_ONLY
+        options[:conditions] = {:author_id => user.id}
+      when ASSIGNEE_ONLY
+        options[:conditions] = {:assigned_to_id => user.id}
+      end
+      issues = query.issues(options)
       @queries_data << [project, query, issues] if issues.any?
     end
 
@@ -36,6 +47,8 @@ class MailReminderMailer < ActionMailer::Base
     original_delivery_method = ActionMailer::Base.delivery_method
     if @queries_data.empty?
       ActionMailer::Base.delivery_method = :test
+    else
+      BoardsWatchers.logger.info(user.mail)
     end
 
     headers['X-Mailer'] = 'Redmine'

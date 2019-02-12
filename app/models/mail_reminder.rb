@@ -104,5 +104,5 @@ class MailReminder < ActiveRecord::Base
     end
   end
 
-  attr_accessible :project_id, :query_id, :interval
+  attr_accessible :project_id, :query_id, :interval, :role_condition
 end
