@@ -6,7 +6,7 @@ class CreateReminders < ActiveRecord::Migration
       t.column :interval, :string, :limit => 30
       t.column :interval_value, :integer
       t.column :executed_at, :datetime
-      t.column :additional_filtering, :string, :limit => 30
+      t.column :role_condition, :string, :limit => 30
       t.timestamps
     end
   end

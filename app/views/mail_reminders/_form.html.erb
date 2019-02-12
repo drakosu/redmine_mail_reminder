@@ -20,8 +20,10 @@
         <%= check_box_tag(role.name.downcase, role.id, reminder.roles.include?(role)) %>
         <%= label_tag(role.name.downcase, role.name) %><br />
       <% end %>
-      <%= content_tag(:label, l(:label_additional_filtering)) %>
-      <%= select_tag("additional_filtering", options_for_select([[l(:label_author_only), MailReminderMailer::AUTHOR_ONLY], [l(:label_assignee_only),  MailReminderMailer::ASSIGNEE_ONLY]], reminder.additional_filtering), :include_blank => true) %>
+      <%= content_tag(:label, l(:role_condition)) %>:
+      <%= f.select :role_condition, options_for_select(
+            [[l(:all), 'all'], [l(:author_only), MailReminderMailer::AUTHOR_ONLY], [l(:assignee_only),  MailReminderMailer::ASSIGNEE_ONLY]],
+            reminder.new_record? ? 'all' : reminder.role_condition) %>
       </p>
     </p>
     <%= f.submit reminder.new_record? ? l(:add) : l(:save) %>

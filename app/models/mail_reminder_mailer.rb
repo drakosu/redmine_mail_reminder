@@ -30,10 +30,10 @@ class MailReminderMailer < ActionMailer::Base
   def issues_reminder(user, queries_data)
     User.current = user
     @queries_data = []
-    queries_data.each do |project, query, additional_filtering|
+    queries_data.each do |project, query, role_condition|
       query.project = project
       options = {:include => [:assigned_to, :tracker, :priority, :category, :fixed_version]}
-      case additional_filtering
+      case role_condition
       when AUTHOR_ONLY
         options[:conditions] = {:author_id => user.id}
       when ASSIGNEE_ONLY
