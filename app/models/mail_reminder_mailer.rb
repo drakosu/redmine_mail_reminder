@@ -47,8 +47,6 @@ class MailReminderMailer < ActionMailer::Base
     original_delivery_method = ActionMailer::Base.delivery_method
     if @queries_data.empty?
       ActionMailer::Base.delivery_method = :test
-    else
-      BoardsWatchers.logger.info(user.mail)
     end
 
     headers['X-Mailer'] = 'Redmine'
